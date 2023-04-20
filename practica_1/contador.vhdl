@@ -24,7 +24,7 @@ ARCHITECTURE mod_m_counter_prog_arch OF mod_m_counter_prog IS
     SIGNAL r_reg : unsigned(NUM_BITS - 1 DOWNTO 0);
     SIGNAL r_next : unsigned(NUM_BITS - 1 DOWNTO 0);
 BEGIN
-    NXT_STATE_PROC : PROCESS (clk_i, reset_i)
+    NXT_STATE_PROC : PROCESS (clk_i)
     BEGIN
         IF rising_edge(clk_i) THEN
             IF (reset_i = '1') THEN

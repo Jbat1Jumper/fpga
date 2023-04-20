@@ -12,7 +12,7 @@ ARCHITECTURE behavior OF dimmer_tb IS
     --Inputs
     SIGNAL clk_i : STD_LOGIC := '1';
     SIGNAL reset_i : STD_LOGIC := '1';
-    SIGNAL duty_cycle_i : STD_LOGIC_VECTOR(N - 1 DOWNTO 0);
+    SIGNAL duty_cycle_i : STD_LOGIC_VECTOR(N DOWNTO 0);
     SIGNAL out_o : STD_LOGIC;
     -- Clock period definitions
     CONSTANT clk_period : TIME := 1 us;
@@ -26,7 +26,7 @@ BEGIN
         WAIT FOR clk_period/2;
     END PROCESS;
 
-    duty_cycle_i <= "000", "111" AFTER 15 us, "011" after 30 us, "000" after 45 us;
+    duty_cycle_i <= "0000", "0111" AFTER 30 us, "0011" after 60 us, "0000" after 90 us;
     reset_i <= '1', '0' AFTER 5 us;
 
     -- Instantiate the Unit Under Test (UUT)
