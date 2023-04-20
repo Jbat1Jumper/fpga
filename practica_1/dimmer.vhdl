@@ -9,6 +9,7 @@ ENTITY dimmer IS
     );
     PORT (
         clk_i : IN STD_LOGIC;
+        reset_i : IN STD_LOGIC;
         duty_cycle_i : IN STD_LOGIC_VECTOR (N - 1 DOWNTO 0);
         out_o : OUT STD_LOGIC
     );
@@ -27,7 +28,7 @@ begin
     )
     PORT MAP(
         clk_i => clk_i,
-        reset_i => '0',
+        reset_i => reset_i,
         run_i => '1',
         max_count_i => STD_LOGIC_VECTOR(to_unsigned(MAX_COUNT, N)),
         count_o => count_o,
