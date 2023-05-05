@@ -1,0 +1,10 @@
+v 4
+file . "Cordic_tb.vhd" "b411462428e2e62981ce5b91f4821474bd489d17" "20230505000412.181":
+  entity cordic_tb at 1( 0) + 0 on 27;
+  architecture behavioral of cordic_tb at 8( 103) + 0 on 28;
+file . "CordicIter.vhd" "d8579c0ff96f9b3902aecb010c7ac46635280c69" "20230505000412.179":
+  entity cordic_iter at 1( 0) + 0 on 25;
+  architecture strcutural of cordic_iter at 25( 689) + 0 on 26;
+file . "Cordic.vhd" "ce484ab870c8a924c39c23f6b3dc15d8c8aeae80" "20230505000412.176":
+  entity cordic at 1( 0) + 0 on 23;
+  architecture structural of cordic at 23( 598) + 0 on 24;
