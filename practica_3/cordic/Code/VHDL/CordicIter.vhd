@@ -24,15 +24,25 @@ entity cordic_iter is
 end entity;
 
 architecture strcutural of cordic_iter is
+  function maybe_shift(i1:unsigned) 
+      return unsigned is
+  begin
+      if SHIFT = 0 then
+          return i1;
+      else
+          return (SHIFT-1 downto 0 => '0') & i1(N downto SHIFT);
+      end if;
+  end function;
 
   constant ARCTAN_VALUE : REAL := ARCTAN(real(2) ** real(-SHIFT));
-  constant a : signed(N-1 downto 0) := signed(to_sfixed(ARCTAN_VALUE, 4, 5 - N));
+  constant deg_45 : unsigned(N-1 downto 0) := to_unsigned(2 ** (N - 3), N);
+  constant a : unsigned(N-1 downto 0) := maybe_shift(deg_45);
 
   begin
     dv_o <= en_i;
 
-    xip1 <= (SHIFT-1 downto 0 => '0') & yi(N downto SHIFT);
-    yip1 <= (SHIFT-1 downto 0 => '0') & xi(N downto SHIFT);
-    zip1 <= std_logic_vector(signed(zi) - a) when zi(zi'left) = '1' else std_logic_vector(signed(zi) + a);
+    xip1 <= std_logic_vector(maybe_shift(unsigned(yi)));
+    yip1 <= std_logic_vector(maybe_shift(unsigned(xi)));
+    zip1 <= std_logic_vector(signed(zi) - signed(a)) when zi(zi'left) = '1' else std_logic_vector(signed(zi) + signed(a));
 
 end architecture;
