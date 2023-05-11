@@ -30,11 +30,10 @@ architecture strcutural of cordic_iter is
       if SHIFT = 0 then
           return i1;
       else
-          return (SHIFT-1 downto 0 => '0') & i1(N downto SHIFT);
+          return (SHIFT-1 downto 0 => '0') & i1(N-1 downto SHIFT);
       end if;
   end function;
 
-  constant ARCTAN_VALUE : REAL := ARCTAN(real(2) ** real(-SHIFT));
   constant deg_45 : unsigned(N-1 downto 0) := to_unsigned(2 ** (N - 3), N);
   constant a : unsigned(N-1 downto 0) := maybe_shift(deg_45);
 
