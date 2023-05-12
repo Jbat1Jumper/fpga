@@ -8,6 +8,11 @@ run: build
 run-n-see: run
 	gtkwave board_tb.vcd
 
+__project_template__.svf:
+	echo "You need to create the svf from Quartus"
+	exit(-1)
+
 program-board: __project_template__.svf
-	sudo killall jtagd
+	sudo killall jtagd || true
+	echo "!!! If it hands try closing Quartus and restarting the board !!!"
 	sudo jtag program_board.jtag
