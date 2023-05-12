@@ -30,7 +30,7 @@ cadena de dispositivos del JTAG. Eso se hace desde el programador de Quartus en
 el menu File. Asegurarse que esté configurado para 3.3V en las opciones al
 generar el `sfv`.  (TODO: Agregar comando para esto).
 
-Luego hay que grabar el svf usando el siguiente script.
+Luego hay que grabar el svf usando los siguientes comandos.
 
 ```bash
 # Go to project folder
