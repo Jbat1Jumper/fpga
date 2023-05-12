@@ -2,7 +2,6 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use IEEE.math_real.all;
-use IEEE.fixed_pkg.all;
 
 entity cordic_iter is
   generic(
@@ -30,13 +29,13 @@ architecture strcutural of cordic_iter is
       if SHIFT = 0 then
           return i1;
       else
-          return (SHIFT-1 downto 0 => '0') & i1(N downto SHIFT);
+          return (SHIFT-1 downto 0 => '0') & i1(N-1 downto SHIFT);
       end if;
   end function;
-
+  
   constant ARCTAN_VALUE : REAL := ARCTAN(real(2) ** real(-SHIFT));
-  constant deg_45 : unsigned(N-1 downto 0) := to_unsigned(2 ** (N - 3), N);
-  constant a : unsigned(N-1 downto 0) := maybe_shift(deg_45);
+  constant SCALE : REAL := real(2**N) / MATH_2_PI;
+  constant a : unsigned(N-1 downto 0) := to_unsigned(natural(ARCTAN_VALUE * SCALE), N);
 
   begin
     dv_o <= en_i;
