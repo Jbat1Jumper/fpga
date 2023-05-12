@@ -9,7 +9,7 @@ run-n-see: run
 	gtkwave board_tb.vcd
 
 __project_template__.svf:
-	echo "You need to create the svf from Quartus"
+	echo "You need to create the svf from Quartus first"
 	exit(-1)
 
 program-board: __project_template__.svf
