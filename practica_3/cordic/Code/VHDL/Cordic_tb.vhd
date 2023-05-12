@@ -7,8 +7,8 @@ end entity;
 
 architecture Behavioral of Cordic_tb is
 
-constant  N    : natural := 16; --Ancho de la palabra
-constant  ITER : natural := 5;--Numero de iteraciones
+constant  N    : natural := 32; --Ancho de la palabra
+constant  ITER : natural := 22; --Numero de iteraciones
 
 signal clk  : std_logic := '1';
 signal rst  : std_logic := '1';
@@ -47,9 +47,9 @@ begin
   en_i <= '0';
   wait for clk_period * 10 + 1 ps;
   en_i <= '1';    -- Primer vector a procesar
-  x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
+  x_i <= std_logic_vector(to_signed(1, N));   -- Poner el número a calcular.
+  y_i <= std_logic_vector(to_signed(0, N));   -- Poner el número a calcular.
+  z_i <= std_logic_vector(to_signed(357913941, N));  -- Poner el número a calcular.
   wait for clk_period;    -- Segundo vector a procesar
   x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
   y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
@@ -63,9 +63,9 @@ begin
   y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
   z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
   wait for clk_period;    -- Quinto vector a procesar
-  x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
+  x_i <= std_logic_vector(to_signed(1, N));   -- Poner el número a calcular.
+  y_i <= std_logic_vector(to_signed(0, N));   -- Poner el número a calcular.
+  z_i <= std_logic_vector(to_signed(8192, N));  -- Poner el número a calcular.
   wait;
 end process;
 

@@ -14,7 +14,6 @@ entity cordic_iter is
     xi    : in std_logic_vector (N-1 downto 0);
     yi    : in std_logic_vector (N-1 downto 0);
     zi    : in std_logic_vector (N-1 downto 0);
-    ci    : in std_logic_vector (N-1 downto 0);
     dv_o  : out std_logic;
     xip1  : out std_logic_vector (N-1 downto 0);
     yip1  : out std_logic_vector (N-1 downto 0);
@@ -42,6 +41,6 @@ architecture strcutural of cordic_iter is
 
     xip1 <= std_logic_vector(maybe_shift(unsigned(yi)));
     yip1 <= std_logic_vector(maybe_shift(unsigned(xi)));
-    zip1 <= std_logic_vector(signed(zi) - signed(a)) when zi(zi'left) = '1' else std_logic_vector(signed(zi) + signed(a));
+    zip1 <= std_logic_vector(signed(zi) + signed(a)) when zi(zi'left) = '1' else std_logic_vector(signed(zi) - signed(a));
 
 end architecture;

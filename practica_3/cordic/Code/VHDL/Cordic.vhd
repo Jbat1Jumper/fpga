@@ -36,7 +36,6 @@ architecture structural of cordic is
     xi    : in std_logic_vector (N-1 downto 0);
     yi    : in std_logic_vector (N-1 downto 0);
     zi    : in std_logic_vector (N-1 downto 0);
-    ci    : in std_logic_vector (N-1 downto 0);
     dv_o  : out std_logic;
     xip1  : out std_logic_vector (N-1 downto 0);
     yip1  : out std_logic_vector (N-1 downto 0);
@@ -47,9 +46,7 @@ architecture structural of cordic is
   type handShakeVector is array(ITER downto 0) of std_logic;
   signal en, dv : handShakeVector;
   type ConnectVector is array(ITER downto 0) of std_logic_vector(N-1 downto 0);
-  signal wirex, wirey, wirez, wireLUT : ConnectVector;
-  type intLUT is array(MAX_ITER downto 0) of integer range 0 to 2**N;
-  signal atanLUT : intLUT := (11,10,9,8,7,6,5,4,3,2,1); -- No son valores reales!
+  signal wirex, wirey, wirez : ConnectVector;
 
 begin
 
@@ -60,7 +57,6 @@ wirez(0) <= z_i;
 
 CONNECTION_INSTANCE: for j in 0 to ITER-1 generate
   begin
-    wireLUT(j) <= std_logic_vector(to_unsigned(atanLUT(j),N));
 
     ITERATION: cordic_iter
       generic map(N,j)
@@ -71,7 +67,6 @@ CONNECTION_INSTANCE: for j in 0 to ITER-1 generate
         xi    => wirex(j),
         yi    => wirey(j),
         zi    => wirez(j),
-        ci   => wireLUT(j),
         dv_o => dv(j),
         xip1 => wirex(j+1),
         yip1 => wirey(j+1),
