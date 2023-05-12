@@ -3,7 +3,7 @@ build: board.vhd board_tb.vhd
 	ghdl -e Board_tb
 
 run: build
-	ghdl -r Board_tb --vcd=board_tb.vcd --stop-time=100us
+	ghdl -r Board_tb --vcd=board_tb.vcd --stop-time=1us
 
 run-n-see: run
 	gtkwave board_tb.vcd
