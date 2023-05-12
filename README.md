@@ -27,7 +27,7 @@ correctamente y se puede grabar la placa usando la cli.
 
 Para ello primero hay que generar un `.svf` que tenga el binario para grabar la
 cadena de dispositivos del JTAG. Eso se hace desde el programador de Quartus en
-el menu File. Asegurarse que esté configurado para 3.3v en las opciones al
+el menu File. Asegurarse que esté configurado para 3.3V en las opciones al
 generar el `sfv`.  (TODO: Agregar comando para esto).
 
 Luego hay que grabar el svf usando el siguiente script.
