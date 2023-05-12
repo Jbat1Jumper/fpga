@@ -1,4 +1,4 @@
-module countpro(sys_clk,led);
+module board(sys_clk,led);
 
 input sys_clk;
 output [2:0] led;

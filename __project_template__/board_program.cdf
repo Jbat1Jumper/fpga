@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP2C5T144) Path("/home/nikita/r/fpga/__project_template__/") File("countpro.sof") MfrSpec(OpMask(1));
+		Device PartName(EP2C5T144) Path("./") File("board.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
