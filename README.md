@@ -23,9 +23,9 @@ placa EP2C5 Mini Dev y scripts para poder generar y grabar el bytecode (ver
 
 ## Grabar placa usando UrJTAG
 
-Por algún motivo no está funcionando el programador de Quartus y no reconoce
-los dispositivos conectados al JTAG. Por suerte UrJTAG funciona correctamente y
-se puede grabar la placa usando la cli.
+Por algún motivo en Ubuntu no está funcionando el programador de Quartus y no
+reconoce los dispositivos conectados al JTAG. Por suerte UrJTAG funciona
+correctamente y se puede grabar la placa usando la cli.
 
 Para ello primero hay que generar un `.svf` que tenga el binario para grabar la
 cadena de dispositivos del JTAG. Eso se hace desde el programador de Quartus en
