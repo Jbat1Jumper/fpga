@@ -32,7 +32,7 @@ architecture strcutural of cordic_iter is
           return (SHIFT-1 downto 0 => '0') & i1(N-1 downto SHIFT);
       end if;
   end function;
-  
+
   constant ARCTAN_VALUE : REAL := ARCTAN(real(2) ** real(-SHIFT));
   constant SCALE : REAL := real(2**N) / MATH_2_PI;
   constant a : unsigned(N-1 downto 0) := to_unsigned(natural(ARCTAN_VALUE * SCALE), N);
