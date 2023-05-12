@@ -1,7 +1,5 @@
 # Diseño de Sistemas Digitales con FPGA
 
-## Resumen
-
 Varios diseños de práctica utilizando una Cyclone II EP2C5 Mini Dev Board.
 
 ## Crear un nuevo proyecto
