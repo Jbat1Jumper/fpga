@@ -54,6 +54,7 @@
 *.svf
 *.tcl
 *.txt # Explicitly add any text files used
+*.vcd
 *~
 *example*
 *sopc_*
