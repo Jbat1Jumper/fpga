@@ -12,7 +12,11 @@ for f in ./$PROJECT_NAME/__project_template__.*; do
 done
 
 for f in ./$PROJECT_NAME/*; do
-    sed -i "s/__project_template__/$PROJECT_NAME/g" "$f"
+    if [[ -d "$f" ]]; then
+        echo "Skipping directory"
+    else
+        sed -i "s/__project_template__/$PROJECT_NAME/g" "$f"
+    fi
 done
 
 

@@ -33,12 +33,8 @@ generar el `sfv`.  (TODO: Agregar comando para esto).
 Luego hay que grabar el svf usando los siguientes comandos.
 
 ```bash
-# Go to project folder
 cd my_next_gen_console
-# Kill this monstruosity so the port is free
-sudo killall jtagd
-# Upload program to the FPGA
-jtag program_board.jtag
+make program-board
 ```
 
 Probablemente hay que cerrar Quartus si `jtagd` no se cierra. Tambien puede que

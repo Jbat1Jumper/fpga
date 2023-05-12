@@ -10,7 +10,7 @@ architecture Behavioral of Board_tb is
     constant clk_period : time := 20 ns;
 
     signal clk   : std_logic := '1';
-    signal rst   : std_logic := '1';
+    signal rst   : std_logic := '0';
     signal leds  : std_logic_vector(2 downto 0) := (others =>'0');
 
 begin
@@ -25,9 +25,9 @@ begin
 
     rst_process: process
     begin
-      rst <= '1';
-      wait for clk_period * 5 + 1 ps;
       rst <= '0';
+      wait for clk_period * 5 + 1 ps;
+      rst <= '1';
       wait;
     end process;
 

@@ -33,7 +33,7 @@ begin
 	count_system_clock : process (CLK)
     begin
         if (rising_edge(CLK)) then
-            if (RST = '1') then
+            if (RST = '0') then
                 clk_count <= (others => '0');
             elsif (period_reached = '1') then 
                 clk_count <= (others => '0');
@@ -70,7 +70,7 @@ begin
     change_state : process (CLK)
     begin
         if (rising_edge(CLK)) then
-            if (RST = '1') then
+            if (RST = '0') then
                 present_state <= turned_off;
             else
                 present_state <= next_state;
@@ -82,24 +82,24 @@ begin
     begin
         case present_state is
             when turned_off =>
-                LED_A <= '0';
-                LED_B <= '0';
-                LED_C <= '0';
+                LED_A <= '1';
+                LED_B <= '1';
+                LED_C <= '1';
             
             when first_led =>
-                LED_A <= '1';
-                LED_B <= '0';
-                LED_C <= '0';
-
-            when second_led =>
                 LED_A <= '0';
                 LED_B <= '1';
-                LED_C <= '0';
+                LED_C <= '1';
 
-            when third_led =>
-                LED_A <= '0';
+            when second_led =>
+                LED_A <= '1';
                 LED_B <= '0';
                 LED_C <= '1';
+
+            when third_led =>
+                LED_A <= '1';
+                LED_B <= '1';
+                LED_C <= '0';
         end case;
     end process;
 
