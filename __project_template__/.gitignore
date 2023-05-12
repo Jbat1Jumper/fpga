@@ -51,6 +51,7 @@
 *.sof
 *.sopc_builder
 *.summary
+*.svf
 *.tcl
 *.txt # Explicitly add any text files used
 *~
