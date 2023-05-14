@@ -9,8 +9,7 @@ run-n-see: run
 	gtkwave board_tb.vcd
 
 __project_template__.svf:
-	echo "You need to create the svf from Quartus first"
-	exit(-1)
+	python3 gen_svf.py
 
 program-board: __project_template__.svf
 	sudo killall jtagd || true
