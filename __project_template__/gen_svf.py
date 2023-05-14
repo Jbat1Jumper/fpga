@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 
 #
 # Generate .sof file
@@ -26,13 +27,17 @@ AlteraBegin;
 AlteraEnd;
 """
 
-with open(f'{project_name}.cdf', 'w') as ofile:
+cdf_path = f'{project_name}.cdf'
+
+with open(cdf_path, 'w') as ofile:
     ofile.write(cdf_contents)
 
 #
 # Generate .svf file
 #
+subprocess.run(['quartus_cpf', '-c', cdf_path, 'svf'])
 
 #
 # Cleanup
 #
+
