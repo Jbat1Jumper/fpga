@@ -1,5 +1,5 @@
-build: dimmer.vhdl dimmer_tb.vhdl contador.vhdl
-	ghdl -a contador.vhdl dimmer.vhdl dimmer_tb.vhdl 
+build: dimmer.vhd dimmer_tb.vhd contador.vhd
+	ghdl -a contador.vhd dimmer.vhd dimmer_tb.vhd 
 	ghdl -e dimmer_tb
 
 run: build
@@ -7,3 +7,12 @@ run: build
 
 run-n-see: run
 	gtkwave dimmer_tb.vcd
+
+practica_1.svf:
+	echo "You need to create the svf from Quartus first"
+	exit(-1)
+
+program-board: practica_1.svf
+	sudo killall jtagd || true
+	echo "!!! If it hands try closing Quartus and restarting the board !!!"
+	sudo jtag program_board.jtag
