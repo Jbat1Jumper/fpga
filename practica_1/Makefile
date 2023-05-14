@@ -9,8 +9,7 @@ run-n-see: run
 	gtkwave dimmer_tb.vcd
 
 practica_1.svf:
-	echo "You need to create the svf from Quartus first"
-	exit(-1)
+	python3 gen_svf.py
 
 program-board: practica_1.svf
 	sudo killall jtagd || true

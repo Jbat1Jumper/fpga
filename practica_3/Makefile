@@ -16,8 +16,7 @@ run-n-see: run
 	gtkwave cordic_tb.vcd
 
 practica_3.svf:
-	echo "You need to create the svf from Quartus first"
-	exit(-1)
+	python3 gen_svf.py
 
 program-board: practica_3.svf
 	sudo killall jtagd || true
