@@ -35,7 +35,7 @@ with open(cdf_path, 'w') as ofile:
 #
 # Generate .svf file
 #
-subprocess.run(['quartus_cpf', '-c', cdf_path, 'svf'])
+subprocess.run(['quartus_cpf', '-c', cdf_path, 'svf'], checked=True)
 
 #
 # Cleanup
