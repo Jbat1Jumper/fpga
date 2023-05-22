@@ -28,7 +28,6 @@ architecture strcutural of cordic_iter is
       if SHIFT = 0 then
           return i1;
       else
-          return (SHIFT-1 downto 0 => '0') & i1(N-1 downto SHIFT);
       end if;
   end function;
 
@@ -36,11 +35,27 @@ architecture strcutural of cordic_iter is
   constant SCALE : REAL := real(2**N) / MATH_2_PI;
   constant a : unsigned(N-1 downto 0) := to_unsigned(natural(ARCTAN_VALUE * SCALE), N);
 
+  signal xi_shifted : std_logic_vector(N-1 downto 0);
+  signal yi_shifted : std_logic_vector(N-1 downto 0);
+
   begin
     dv_o <= en_i;
 
-    xip1 <= std_logic_vector(maybe_shift(unsigned(yi)));
-    yip1 <= std_logic_vector(maybe_shift(unsigned(xi)));
-    zip1 <= std_logic_vector(signed(zi) + signed(a)) when zi(zi'left) = '1' else std_logic_vector(signed(zi) - signed(a));
+    g_NOT_SHIFTED_INPUT : if SHIFT = 0 generate
+        xi_shifted <= xi;
+        yi_shifted <= yi;
+    end generate g_NOT_SHIFTED_INPUT;
+
+    g_SHIFTED_INPUT : if SHIFT > 0 generate
+        xi_shifted <= (SHIFT-1 downto 0 => xi(xi'left)) & xi(N-1 downto SHIFT);
+        yi_shifted <= (SHIFT-1 downto 0 => yi(yi'left)) & yi(N-1 downto SHIFT);
+    end generate g_SHIFTED_INPUT;
+
+    xip1 <= std_logic_vector(signed(xi) + signed(yi_shifted)) when zi(zi'left) = '1'
+            else std_logic_vector(signed(xi) - signed(yi_shifted));
+    yip1 <= std_logic_vector(signed(yi) - signed(xi_shifted)) when zi(zi'left) = '1'
+            else std_logic_vector(signed(yi) + signed(xi_shifted));
+    zip1 <= std_logic_vector(signed(zi) + signed(a)) when zi(zi'left) = '1'
+            else std_logic_vector(signed(zi) - signed(a));
 
 end architecture;

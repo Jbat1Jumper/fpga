@@ -25,6 +25,8 @@ architecture structural of cordic is
   constant MAX_ITER : natural := 10;  -- Hay que popular la tabla de atan...
                                       --(Se puede automatizar)
 
+  constant GAIN : real := 1.647;  -- OJO! Vale si ITER > 5, para valores menores se podría tabular
+
   component cordic_iter is
   generic(
     N     : natural := 8;  --Ancho de la palabra
@@ -48,6 +50,16 @@ architecture structural of cordic is
   type ConnectVector is array(ITER downto 0) of std_logic_vector(N-1 downto 0);
   signal wirex, wirey, wirez : ConnectVector;
 
+  signal pre_x_o : std_logic_vector(N-1 downto 0);
+  signal pre_y_o : std_logic_vector(N-1 downto 0);
+  
+  signal correction_x_o_1 : std_logic_vector(N-1 downto 0);
+  signal correction_x_o_2 : std_logic_vector(N-1 downto 0);
+  signal correction_x_o_3 : std_logic_vector(N-1 downto 0);
+  signal correction_y_o_1 : std_logic_vector(N-1 downto 0);
+  signal correction_y_o_2 : std_logic_vector(N-1 downto 0);
+  signal correction_y_o_3 : std_logic_vector(N-1 downto 0);
+
 begin
 
 en(0) <= en_i;
@@ -59,7 +71,7 @@ CONNECTION_INSTANCE: for j in 0 to ITER-1 generate
   begin
 
     ITERATION: cordic_iter
-      generic map(N,j)
+      generic map(N, j)
       port map(
         clk => clk,
         rst => rst,
@@ -80,8 +92,23 @@ CONNECTION_INSTANCE: for j in 0 to ITER-1 generate
   
 
 dv_o <= dv(ITER-1);
-x_o <= wirex(ITER);
-y_o <= wirey(ITER);
+
+pre_y_o <= wirey(ITER);
+correction_y_o_1 <= (2-1 downto 0 => pre_y_o(pre_y_o'left)) & pre_y_o(N-1 downto 2);
+correction_y_o_2 <= (3-1 downto 0 => pre_y_o(pre_y_o'left)) & pre_y_o(N-1 downto 3);
+correction_y_o_3 <= (6-1 downto 0 => pre_y_o(pre_y_o'left)) & pre_y_o(N-1 downto 6);
+y_o <= std_logic_vector(
+       signed(pre_y_o) - signed(correction_y_o_1) - signed(correction_y_o_2) - signed(correction_y_o_3)
+   );
+
+pre_x_o <= wirex(ITER);
+correction_x_o_1 <= (2-1 downto 0 => pre_x_o(pre_x_o'left)) & pre_x_o(N-1 downto 2);
+correction_x_o_2 <= (3-1 downto 0 => pre_x_o(pre_x_o'left)) & pre_x_o(N-1 downto 3);
+correction_x_o_3 <= (6-1 downto 0 => pre_x_o(pre_x_o'left)) & pre_x_o(N-1 downto 6);
+x_o <= std_logic_vector(
+       signed(pre_x_o) - signed(correction_x_o_1) - signed(correction_x_o_2) - signed(correction_x_o_3)
+   );
+
 z_o <= wirez(ITER);
 
 end architecture;

@@ -5,15 +5,15 @@ board_build: board.vhd board_tb.vhd
 board_run: build
 	ghdl -r Board_tb --vcd=board_tb.vcd --stop-time=1us
 
-build: cordic.vhd cordiciter.vhd cordic_tb.vhd 
-	ghdl -a --std=08 cordic.vhd cordiciter.vhd cordic_tb.vhd
-	ghdl -e --std=08 cordic_tb
+build: Cordic.vhd CordicIter.vhd Cordic_tb.vhd 
+	ghdl -a --std=08 Cordic.vhd CordicIter.vhd Cordic_tb.vhd
+	ghdl -e --std=08 Cordic_tb
 
 run: build
-	ghdl -r --std=08 cordic_tb --vcd=cordic_tb.vcd --stop-time=100us
+	ghdl -r --std=08 Cordic_tb --vcd=Cordic_tb.vcd --stop-time=1us
 
 run-n-see: run
-	gtkwave cordic_tb.vcd
+	gtkwave Cordic_tb.vcd
 
 practica_3.svf:
 	python3 gen_svf.py

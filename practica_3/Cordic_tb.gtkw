@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon May 22 00:16:47 2023
+[*]
+[dumpfile] "/home/nikita/r/fpga/practica_3/Cordic_tb.vcd"
+[dumpfile_mtime] "Mon May 22 00:15:27 2023"
+[dumpfile_size] 36340
+[savefile] "/home/nikita/r/fpga/practica_3/Cordic_tb.gtkw"
+[timestart] 0
+[size] 3428 630
+[pos] -1 -1
+*-26.053370 124300000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] cordic_tb.
+[treeopen] cordic_tb.uut.
+[sst_width] 304
+[signals_width] 205
+[sst_expanded] 1
+[sst_vpaned_height] 125
+@28
+[color] 5
+cordic_tb.uut.clk
+@420
+[color] 4
+cordic_tb.x_i[15:0]
+cordic_tb.y_i[15:0]
+[color] 6
+cordic_tb.z_i[15:0]
+[color] 3
+cordic_tb.x_o[15:0]
+[color] 3
+cordic_tb.y_o[15:0]
+[color] 2
+cordic_tb.z_o[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -7,8 +7,31 @@ end entity;
 
 architecture Behavioral of Cordic_tb is
 
-constant  N    : natural := 32; --Ancho de la palabra
-constant  ITER : natural := 22; --Numero de iteraciones
+component cordic is
+  generic(
+	 N : natural;
+	 ITER : natural
+ );--Numero de iteraciones
+  port(
+	 clk : in std_logic;
+	 rst : in std_logic;
+	 en_i : in std_logic;
+	 x_i  : in std_logic_vector(N-1 downto 0);
+	 y_i  : in std_logic_vector(N-1 downto 0);
+	 z_i  : in std_logic_vector(N-1 downto 0);
+	 dv_o : out std_logic;
+	 x_o  : out std_logic_vector(N-1 downto 0);
+	 y_o  : out std_logic_vector(N-1 downto 0);
+	 z_o  : out std_logic_vector(N-1 downto 0)
+	);
+end component;
+
+constant N                   : natural := 16; --Ancho de la palabra
+constant DEGREES             : real    := real(2**N) / 360.0;
+constant AMPLITUDE           : real    := real(2**N) / 2.0 * 0.5;
+constant ITER                : natural := 16; --Numero de iteraciones
+constant MAX_ERROR_DEGREES   : real    := 0.01 * DEGREES;
+constant MAX_ERROR_AMPLITUDE : real    := 0.005 * AMPLITUDE;
 
 signal clk  : std_logic := '1';
 signal rst  : std_logic := '1';
@@ -45,27 +68,62 @@ end process;
 STIM_PROC: process
 begin
   en_i <= '0';
-  wait for clk_period * 10 + 1 ps;
-  en_i <= '1';    -- Primer vector a procesar
-  x_i <= std_logic_vector(to_signed(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_signed(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_signed(357913941, N));  -- Poner el número a calcular.
-  wait for clk_period;    -- Segundo vector a procesar
-  x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
-  wait for clk_period;    -- Tercer vector a procesar
-  x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
-  wait for clk_period;    -- Cuarto vector a procesar
-  x_i <= std_logic_vector(to_unsigned(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_unsigned(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_unsigned(30, N));  -- Poner el número a calcular.
-  wait for clk_period;    -- Quinto vector a procesar
-  x_i <= std_logic_vector(to_signed(1, N));   -- Poner el número a calcular.
-  y_i <= std_logic_vector(to_signed(0, N));   -- Poner el número a calcular.
-  z_i <= std_logic_vector(to_signed(8192, N));  -- Poner el número a calcular.
+  wait for clk_period + 1 ps;
+  en_i <= '1';    
+  x_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(0, N));
+  z_i <= std_logic_vector(to_signed(integer(30.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.086 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.050 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;    
+  x_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(45.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.141 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;    
+  x_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(-45.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.141 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;    
+  x_i <= std_logic_vector(to_signed(integer(0.2 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.2 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(-45.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.282 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;    
+  x_i <= std_logic_vector(to_signed(integer(0.25 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.13 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(-81.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.1675 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(-0.2265 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;    
+  x_i <= std_logic_vector(to_signed(integer(1.0 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.0 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(90.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(1.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+
   wait;
 end process;
 

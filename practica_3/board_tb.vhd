@@ -26,21 +26,19 @@ begin
     rst_process: process
     begin
       rst <= '0';
-      wait for clk_period * 5 + 1 ps;
+      wait for clk_period * 20 + 1 ps;
       rst <= '1';
       wait;
     end process;
 
     uut: entity work.Board
     generic map(
-        PERIOD => 2
+        PERIOD => 3
     )
     port map(
         CLK => clk,
         RST =>  rst,
-        LED_A => leds(2),
-        LED_B => leds(1),
-        LED_C => leds(0)
+        LEDS => leds
     );
 
 
