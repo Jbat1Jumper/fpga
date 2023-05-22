@@ -15,7 +15,6 @@ component cordic is
   port(
 	 clk : in std_logic;
 	 rst : in std_logic;
-	 en_i : in std_logic;
 	 x_i  : in std_logic_vector(N-1 downto 0);
 	 y_i  : in std_logic_vector(N-1 downto 0);
 	 z_i  : in std_logic_vector(N-1 downto 0);
@@ -35,7 +34,6 @@ constant MAX_ERROR_AMPLITUDE : real    := 0.005 * AMPLITUDE;
 
 signal clk  : std_logic := '1';
 signal rst  : std_logic := '1';
-signal en_i : std_logic := '0';
 signal x_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
 signal y_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
 signal z_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
@@ -67,9 +65,7 @@ end process;
 
 STIM_PROC: process
 begin
-  en_i <= '0';
-  wait for clk_period + 1 ps;
-  en_i <= '1';    
+  wait for clk_period;
   x_i <= std_logic_vector(to_signed(integer(0.1 * AMPLITUDE), N));
   y_i <= std_logic_vector(to_signed(0, N));
   z_i <= std_logic_vector(to_signed(integer(30.0 * DEGREES), N));
@@ -114,7 +110,7 @@ begin
   assert abs(signed(x_o) - to_signed(integer(0.1675 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
   assert abs(signed(y_o) - to_signed(integer(-0.2265 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
 
-  wait for clk_period;    
+  wait for clk_period;
   x_i <= std_logic_vector(to_signed(integer(1.0 * AMPLITUDE), N));
   y_i <= std_logic_vector(to_signed(integer(0.0 * AMPLITUDE), N));
   z_i <= std_logic_vector(to_signed(integer(90.0 * DEGREES), N));
@@ -123,6 +119,60 @@ begin
   assert abs(signed(x_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
   assert abs(signed(y_o) - to_signed(integer(1.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
 
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(-0.4 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(-0.6 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(-37.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(-0.680 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(-0.238 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  -- correciones por cuadrante
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(0.9 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.0 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(179.99 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(-0.9 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(-0.9 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(0.0 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(179.99 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.9 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.0 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(0.3 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(-0.2 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer((329.0 - 360.0) * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.154 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(-0.325 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(0.3 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(-0.2 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(110.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(0.085 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(0.350 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+
+  wait for clk_period;
+  x_i <= std_logic_vector(to_signed(integer(0.3 * AMPLITUDE), N));
+  y_i <= std_logic_vector(to_signed(integer(-0.2 * AMPLITUDE), N));
+  z_i <= std_logic_vector(to_signed(integer(-115.0 * DEGREES), N));
+  wait for 10 ps;
+  assert abs(signed(z_o)) < integer(MAX_ERROR_DEGREES);
+  assert abs(signed(x_o) - to_signed(integer(-0.308 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
+  assert abs(signed(y_o) - to_signed(integer(-0.187 * AMPLITUDE), N)) < integer(MAX_ERROR_AMPLITUDE);
 
   wait;
 end process;
@@ -133,13 +183,9 @@ UUT: entity work.cordic
     ITER  => ITER
   )
   port map(
-    clk =>  clk,
-    rst =>  rst,
-    en_i  =>  en_i,
     x_i   =>  x_i,
     y_i   =>  y_i,
     z_i   =>  z_i,
-    dv_o => dv_o,
     x_o  =>  x_o,
     y_o  =>  y_o,
     z_o  =>  z_o

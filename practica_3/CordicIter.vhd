@@ -8,13 +8,9 @@ entity cordic_iter is
     N     : natural := 8;  --Ancho de la palabra
     SHIFT : natural := 1); --Desplazamiento
   port(
-    clk   : in std_logic;
-    rst   : in std_logic;
-    en_i  : in std_logic;
     xi    : in std_logic_vector (N-1 downto 0);
     yi    : in std_logic_vector (N-1 downto 0);
     zi    : in std_logic_vector (N-1 downto 0);
-    dv_o  : out std_logic;
     xip1  : out std_logic_vector (N-1 downto 0);
     yip1  : out std_logic_vector (N-1 downto 0);
     zip1  : out std_logic_vector (N-1 downto 0)
@@ -39,7 +35,6 @@ architecture strcutural of cordic_iter is
   signal yi_shifted : std_logic_vector(N-1 downto 0);
 
   begin
-    dv_o <= en_i;
 
     g_NOT_SHIFTED_INPUT : if SHIFT = 0 generate
         xi_shifted <= xi;
