@@ -32,9 +32,6 @@ begin
     end process;
 
     uut: entity work.Board
-    generic map(
-        PERIOD => 3
-    )
     port map(
         CLK => clk,
         RST =>  rst,

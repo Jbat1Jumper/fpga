@@ -18,7 +18,6 @@ component cordic is
 	 x_i  : in std_logic_vector(N-1 downto 0);
 	 y_i  : in std_logic_vector(N-1 downto 0);
 	 z_i  : in std_logic_vector(N-1 downto 0);
-	 dv_o : out std_logic;
 	 x_o  : out std_logic_vector(N-1 downto 0);
 	 y_o  : out std_logic_vector(N-1 downto 0);
 	 z_o  : out std_logic_vector(N-1 downto 0)
@@ -32,12 +31,10 @@ constant ITER                : natural := 10;
 constant MAX_ERROR_DEGREES   : real    := 0.1 * DEGREES;
 constant MAX_ERROR_AMPLITUDE : real    := 0.005 * AMPLITUDE;
 
-signal clk  : std_logic := '1';
-signal rst  : std_logic := '1';
+signal clk  : std_logic;
 signal x_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
 signal y_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
 signal z_i  : std_logic_vector(N-1 downto 0) := (others =>'0');
-signal dv_o : std_logic;
 signal x_o  : std_logic_vector(N-1 downto 0);
 signal y_o  : std_logic_vector(N-1 downto 0);
 signal z_o  : std_logic_vector(N-1 downto 0);
@@ -55,13 +52,6 @@ begin
   wait for clk_period/2;
 end process;
 
-RESET_PROC: process
-begin
-  rst <= '1';
-  wait for clk_period * 5 + 1 ps;
-  rst <= '0';
-  wait;
-end process;
 
 STIM_PROC: process
 begin
