@@ -24,12 +24,14 @@ component cordic is
 	);
 end component;
 
+
 constant N                   : natural := 16;
+constant ITER                : natural := 10;
 constant DEGREES             : real    := real(2**N) / 360.0;
 constant AMPLITUDE           : real    := real(2**N) / 2.0 * 0.5; -- El 0.5 está porque durante el calculo el vector se agranda por ~1.6, TODO: Agrandar el ancho de palabra internamente en el Cordic mientras se computa el valor.
-constant ITER                : natural := 10;
 constant MAX_ERROR_DEGREES   : real    := 0.1 * DEGREES;
 constant MAX_ERROR_AMPLITUDE : real    := 0.005 * AMPLITUDE;
+
 
 signal clk  : std_logic;
 signal x_i  : std_logic_vector(N-1 downto 0) := (others =>'0');

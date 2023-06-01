@@ -32,6 +32,9 @@ begin
     end process;
 
     uut: entity work.Board
+    generic map (
+		  N : natural := 16
+    )
     port map(
         CLK => clk,
         RST =>  rst,
