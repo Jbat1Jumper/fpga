@@ -1,0 +1,4 @@
+bsdl path ./bsdl
+cable UsbBlaster
+detect
+svf proyecto_final.svf
