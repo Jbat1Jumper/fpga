@@ -18,12 +18,16 @@ for name in input_names:
 selected_input = next(filter(lambda n: "nano" in n, input_names))
 print("Selected input:", selected_input)
 
+values = [0, 1, 2, 3]
+
 print("Listening to notes")
 with mido.open_input(selected_input) as inport:
     for msg in inport:
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
-        print(msg, 'bytes:', msg_bytes_h)
-        arduino.write(msg.bytes())
+        print(msg, 'bytes:', msg_bytes_h, 'sending:', values[msg.note % 4])
+        #arduino.write(msg.bytes())
+
+        print('written_bytes:', arduino.write(values[msg.note % 4].to_bytes()))
 
         # Read to check we sent the right thing
         #value = arduino.readline().decode('utf-8').strip()
