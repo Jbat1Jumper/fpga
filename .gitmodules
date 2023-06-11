@@ -1,3 +1,7 @@
 [submodule "practica_3/uart-for-fpga"]
 	path = practica_3/uart-for-fpga
 	url = git@github.com:jakubcabal/uart-for-fpga.git
+
+[submodule "proyecto_final/uart-for-fpga"]
+	path = proyecto_final/uart-for-fpga
+	url = git@github.com:jakubcabal/uart-for-fpga.git
