@@ -1,9 +1,14 @@
 import mido
 import serial
-import time
+import platform
 
-#print("Opening serial port")
-#arduino = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=.5)
+mido.set_backend("mido.backends.pygame")
+
+# TODO check OS
+ARDUINO_PATH = "/dev/tty.usbserial-130" if platform.system() == "Darwin" else "/dev/ttyUSB0"
+
+print("Opening serial port")
+arduino = serial.Serial(port=ARDUINO_PATH, baudrate=9600, timeout=.5)
 
 print("Listing inputs")
 input_names = set(mido.get_input_names())
@@ -18,10 +23,17 @@ with mido.open_input(selected_input) as inport:
     for msg in inport:
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
         print(msg, 'bytes:', msg_bytes_h)
+        arduino.write(msg.bytes())
 
+        # Read to check we sent the right thing
+        #value = arduino.readline().decode('utf-8').strip()
+        #print(value)
+        #
+        #value = arduino.readline().decode('utf-8').strip()
+        #print(value)
 
-
-
+        #value = arduino.readline().decode('utf-8').strip()
+        #print(value)
 
 # num = 0
 # 
