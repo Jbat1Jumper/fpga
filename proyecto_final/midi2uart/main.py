@@ -2,13 +2,14 @@ import mido
 import serial
 import platform
 
-mido.set_backend("mido.backends.pygame")
+if platform.system() == "Darwin":
+    mido.set_backend("mido.backends.pygame")
 
 # TODO check OS
 ARDUINO_PATH = "/dev/tty.usbserial-130" if platform.system() == "Darwin" else "/dev/ttyUSB0"
 
 print("Opening serial port")
-arduino = serial.Serial(port=ARDUINO_PATH, baudrate=9600, timeout=.5)
+arduino = serial.Serial(port=ARDUINO_PATH, baudrate=115200, timeout=.5)
 
 print("Listing inputs")
 input_names = set(mido.get_input_names())
@@ -24,10 +25,11 @@ print("Listening to notes")
 with mido.open_input(selected_input) as inport:
     for msg in inport:
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
-        print(msg, 'bytes:', msg_bytes_h, 'sending:', values[msg.note % 4])
+        biites = (msg.note % 4).to_bytes(length=1, byteorder="little")
+        print(msg, 'bytes:', msg_bytes_h, 'sending:', biites)
         #arduino.write(msg.bytes())
 
-        print('written_bytes:', arduino.write(values[msg.note % 4].to_bytes()))
+        print('written_bytes:', arduino.write(biites))
 
         # Read to check we sent the right thing
         #value = arduino.readline().decode('utf-8').strip()
