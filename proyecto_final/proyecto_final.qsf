@@ -74,3 +74,4 @@ set_global_assignment -name CDF_FILE board_program.cdf
 set_location_assignment PIN_44 -to UART_RXD
 set_location_assignment PIN_42 -to UART_TXD
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name QIP_FILE pll.qip
