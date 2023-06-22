@@ -5,8 +5,11 @@ build: board.vhd board_tb.vhd
 run: build
 	ghdl -r Board_tb --vcd=board_tb.vcd --stop-time=1us
 
-run-n-see: run
-	gtkwave board_tb.vcd
+
+test-sample-clock:
+	ghdl -a sample_clock.vhd sample_clock_tb.vhd
+	ghdl -e SampleClock_tb
+	ghdl -r SampleClock_tb --vcd=SampleClock_tb.vcd --stop-time=1us
 
 proyecto_final.svf:
 	python3 gen_svf.py

@@ -41,8 +41,7 @@ architecture Board_arch OF Board IS
 			  reset_i : IN STD_LOGIC;
 			  run_i : IN STD_LOGIC;
 			  max_count_i : IN STD_LOGIC_VECTOR (NATURAL(ceil(log2(real(M)))) - 1 DOWNTO 0);
-			  count_o : OUT STD_LOGIC_VECTOR (NATURAL(ceil(log2(real(M)))) - 1
-			  DOWNTO 0);
+			  count_o : OUT STD_LOGIC_VECTOR (NATURAL(ceil(log2(real(M)))) - 1 DOWNTO 0);
 			  max_o : OUT STD_LOGIC
 		 );
 	END component;
