@@ -10,6 +10,8 @@ entity MidiFrontend is
     );
     Port (
         MIDI_DATA : IN std_logic_vector(7 downto 0);
+        MIDI_DATA_EN : IN std_logic;
+        CLK  : IN std_logic;
         FREQ : OUT std_logic_vector(T_WORD_WIDTH-1 downto 0) := (others => '0');
         AMP  : OUT std_logic_vector(T_WORD_WIDTH-1 downto 0) := (others => '0')
     );
@@ -29,33 +31,37 @@ architecture MidiFrontend_arch OF MidiFrontend IS
 
 begin
 
-    new_midi_data : process (MIDI_DATA)
+    new_midi_data : process (CLK)
     begin
-      case current_state is
-        when IDLE | STAT_BYTE =>
-          case MIDI_DATA(7 downto 4) is
-            when "1001" =>
-              -- note on
-              status_byte <= MIDI_DATA(7 downto 4);
-              current_state <= FIRST_DATA_BYTE_OF_TWO;
-              current_op <= NOTE_ON;
-            when "1000" =>
-              -- note off
-              status_byte <= MIDI_DATA(7 downto 4);
-              current_state <= FIRST_DATA_BYTE_OF_TWO;
-              current_op <= NOTE_OFF;
-          end case;
-        when FIRST_DATA_BYTE_OF_TWO =>
-          data_byte_1 <= MIDI_DATA;
-          current_state <= SECOND_DATA_BYTE;
+      if (rising_edge(CLK) AND MIDI_DATA_EN = '1') then
+        case current_state is
+          when IDLE | STAT_BYTE =>
+            case MIDI_DATA(7 downto 4) is
+              when "1001" =>
+                -- note on
+                status_byte <= MIDI_DATA;
+                current_state <= FIRST_DATA_BYTE_OF_TWO;
+                current_op <= NOTE_ON;
+              when "1000" =>
+                -- note off
+                status_byte <= MIDI_DATA;
+                current_state <= FIRST_DATA_BYTE_OF_TWO;
+                current_op <= NOTE_OFF;
+              when others =>
+                -- unknown instruction
+            end case;
+          when FIRST_DATA_BYTE_OF_TWO =>
+            data_byte_1 <= MIDI_DATA;
+            current_state <= SECOND_DATA_BYTE;
 
-        when SECOND_DATA_BYTE =>
-          data_byte_2 <= MIDI_DATA;
-          current_state <= STAT_BYTE;
+          when SECOND_DATA_BYTE =>
+            data_byte_2 <= MIDI_DATA;
+            current_state <= STAT_BYTE;
 
-        when FIRST_DATA_BYTE =>
-          data_byte_1 <= MIDI_DATA;
-          current_state <= STAT_BYTE;
-      end case;
+          when FIRST_DATA_BYTE =>
+            data_byte_1 <= MIDI_DATA;
+            current_state <= STAT_BYTE;
+        end case;
+      end if;
     end process;
 end architecture;
