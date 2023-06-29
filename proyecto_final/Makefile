@@ -11,6 +11,11 @@ test-sample-clock:
 	ghdl -e SampleClock_tb
 	ghdl -r SampleClock_tb --vcd=SampleClock_tb.vcd --stop-time=1us
 
+test-midi-frontend:
+	ghdl -a midi_frontend.vhd midi_frontend_tb.vhd
+	ghdl -e MidiFrontend_tb
+	ghdl -r MidiFrontend_tb --vcd=MidiFrontend_tb.vcd --stop-time=1us
+
 proyecto_final.svf:
 	python3 gen_svf.py
 
