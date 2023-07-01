@@ -7,7 +7,7 @@ use IEEE.math_real.all;
 entity Board is
     Generic (
 		  CLK_FREQ : real := 50.0e6;
-        SAMPLE_FREQ : real := 44100.0e3
+        SAMPLE_FREQ : real := 44100.0
     );
     Port (
         CLK : IN STD_LOGIC;
@@ -41,12 +41,13 @@ architecture Board_arch OF Board IS
 	 
 	 
     signal note_change_enable    : std_logic := '0';
-    signal current_note    : unsigned(1 downto 0) := (others => '0');
+    signal current_note    : std_logic_vector(1 downto 0) := (others => '0');
 	 
 	  
     constant MAX_FREQ : natural := 2**(W-2);
 	 signal freq : unsigned(W-1 downto 0) := (others => '0');
 	 
+	 signal phase_delta_tmp : unsigned((W*2)-1 downto 0) := (others => '0');
 	 signal phase_delta : unsigned(W-1 downto 0) := (others => '0');
 	 
 	 signal phase_signal : unsigned(W-1 downto 0) := (others => '0');
@@ -60,7 +61,7 @@ begin
 	 note_change_pulse : entity work.PulseGenerator
     generic map (
         CLK_FREQ    => CLK_FREQ,
-        PULSE_FREQ  => 1.0
+        PULSE_FREQ  => 1
     )
     port map (
         CLK          => CLK,
@@ -73,20 +74,24 @@ begin
         if (rising_edge(CLK)) then
             if (RST = '0') then
                 current_note <= (others => '0');
+					 freq <= (others => '0');
             else
                 if (note_change_enable = '1') then
-                    current_note <= current_note + 1;
+                    current_note <= std_logic_vector(unsigned(current_note) + 1);
 							case current_note is
-								 when to_unsigned(0, 2) =>
+								 when "00" =>
 									  freq <= to_unsigned(natural(261.63 * 4.0), W);
 
-								 when to_unsigned(1, 2) =>
+								 when "01" =>
 									  freq <= to_unsigned(natural(329.63 * 4.0), W);
 
-								 when to_unsigned(2, 2) =>
+								 when "10" =>
 									  freq <= to_unsigned(natural(392.00 * 4.0), W);
 								 
-								 when to_unsigned(3, 2) =>
+								 when "11" =>
+									  freq <= to_unsigned(natural(493.88 * 4.0), W);
+									  
+								 when others => 
 									  freq <= to_unsigned(natural(493.88 * 4.0), W);
 							end case;
                 end if;
@@ -109,8 +114,10 @@ begin
 		  PULSE_OUT    => sample_enable
 	 );
 	 
-	 phase_delta <= freq;
 	 
+	 -- phase_delta_tmp <= freq * to_unsigned(natural(real(2**W) / SAMPLE_FREQ / 4.0), W);
+	 -- phase_delta <= phase_delta_tmp(W-1 downto 0);
+    phase_delta <= freq;
 	 
     rotate_phase : process (CLK)
     begin

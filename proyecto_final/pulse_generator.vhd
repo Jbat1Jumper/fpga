@@ -7,7 +7,7 @@ use IEEE.math_real.all;
 entity PulseGenerator is
     Generic (
 		  CLK_FREQ : real := 50.0e6;
-        PULSE_FREQ : real := 44100.0e3
+        PULSE_FREQ : real
     );
     Port (
         CLK : IN STD_LOGIC;
