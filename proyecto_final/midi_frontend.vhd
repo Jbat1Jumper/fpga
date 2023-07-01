@@ -29,7 +29,23 @@ architecture MidiFrontend_arch OF MidiFrontend IS
     signal data_byte_1 : std_logic_vector(7 downto 0) := (others => '0'); 
     signal data_byte_2 : std_logic_vector(7 downto 0) := (others => '0');
 
+    signal frequency : std_logic_vector(T_WORD_WIDTH-1 downto 0) := (others => '0');
+    signal amplitude : std_logic_vector(T_WORD_WIDTH-1 downto 0) := (others => '0');
+
+    type frequencyTable is array(127 downto 0) of unsigned(T_WORD_WIDTH-1 downto 0);
+    signal freqTable : frequencyTable;
 begin
+
+    FREQUENCY_TABLE: for j in 0 to 127 generate
+    begin
+      -- formula for frequency based on the midi note: 2**(d-64)/12 * 440hz
+      -- the multiplication by 4 is the same as shifting 2 bits for the decimals in the frequency
+      -- Hence, 0,25 will be represented by 1, 0,50 by 2, 0,75 by 4
+      freqTable(j) <= to_unsigned(natural((2.0**((real(j)-64.0)/12.0)*440.0*4.0)),T_WORD_WIDTH);
+    end generate;
+
+    FREQ <= frequency;
+    AMP <= amplitude;
 
     new_midi_data : process (CLK)
     begin
@@ -57,6 +73,17 @@ begin
           when SECOND_DATA_BYTE =>
             data_byte_2 <= MIDI_DATA;
             current_state <= STAT_BYTE;
+            case status_byte(7 downto 4) is
+              when "1001" =>
+                frequency <= std_logic_vector(unsigned(freqTable(to_integer(unsigned(data_byte_1)))));
+                amplitude <= x"00" & MIDI_DATA;
+              when "1000" =>
+                if (frequency = std_logic_vector(unsigned(freqTable(to_integer(unsigned(data_byte_1)))))) then
+                  amplitude <= (others => '0');
+                end if;
+              when others =>
+                -- unknown instruction
+            end case;
 
           when FIRST_DATA_BYTE =>
             data_byte_1 <= MIDI_DATA;
