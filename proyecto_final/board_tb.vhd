@@ -11,6 +11,8 @@ architecture Behavioral of Board_tb is
 
     signal clk   : std_logic := '1';
     signal rst   : std_logic := '0';
+    signal uart_txd   : std_logic;
+    signal uart_rxd   : std_logic;
     signal leds  : std_logic_vector(2 downto 0) := (others =>'0');
 
 begin
@@ -26,19 +28,20 @@ begin
     rst_process: process
     begin
       rst <= '0';
-      wait for clk_period * 20 + 1 ps;
+      wait for clk_period * 5 + 1 ps;
       rst <= '1';
       wait;
     end process;
 
     uut: entity work.Board
-    generic map (
-		  N : natural := 16
-    )
     port map(
         CLK => clk,
         RST =>  rst,
-        LEDS => leds
+        UART_TXD   => uart_txd,
+        UART_RXD   => uart_rxd,
+        LED_A => leds(2),
+        LED_B => leds(1),
+        LED_C => leds(0)
     );
 
 
