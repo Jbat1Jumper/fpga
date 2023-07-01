@@ -21,5 +21,5 @@ proyecto_final.svf:
 
 program-board: proyecto_final.svf
 	sudo killall jtagd || true
-	echo "!!! If it hands try closing Quartus and restarting the board !!!"
+	echo "!!! If it hangs try closing Quartus and restarting the board !!!"
 	sudo jtag program_board.jtag
