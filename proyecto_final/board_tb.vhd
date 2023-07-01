@@ -11,7 +11,7 @@ architecture Behavioral of Board_tb is
 
     signal clk   : std_logic := '1';
     signal rst   : std_logic := '0';
-    signal uart_txd   : std_logic;
+    signal mono_out   : std_logic;
     signal uart_rxd   : std_logic;
     signal leds  : std_logic_vector(2 downto 0) := (others =>'0');
 
@@ -37,7 +37,7 @@ begin
     port map(
         CLK => clk,
         RST =>  rst,
-        UART_TXD   => uart_txd,
+        MONO_OUT   => mono_out,
         UART_RXD   => uart_rxd,
         LED_A => leds(2),
         LED_B => leds(1),
