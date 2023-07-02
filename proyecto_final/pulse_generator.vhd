@@ -18,10 +18,10 @@ end entity;
 
 architecture PulseGenerator_Arch OF PulseGenerator IS
 	 
-    constant CLK_PER_PULSE : real := CLK_FREQ / PULSE_FREQ;
+    constant CLK_PER_PULSE        : real := CLK_FREQ / PULSE_FREQ;
     constant CLK_COUNT_WORD_WIDTH : natural := NATURAL(ceil(log2(CLK_PER_PULSE)));
-	 signal clk_count       : unsigned(CLK_COUNT_WORD_WIDTH- 1 downto 0);
-    signal pulse_enable : STD_LOGIC := '0';
+	 signal clk_count              : unsigned(CLK_COUNT_WORD_WIDTH- 1 downto 0);
+    signal pulse_enable           : STD_LOGIC := '0';
 	 
 begin
 

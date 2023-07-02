@@ -39,7 +39,6 @@ architecture Board_arch OF Board IS
 	 signal PARITY_ERROR : std_logic;
 	 
 	 
-	 
     signal note_change_enable    : std_logic := '0';
     signal current_note    : std_logic_vector(1 downto 0) := (others => '0');
 	 
@@ -57,11 +56,13 @@ architecture Board_arch OF Board IS
 	 signal noise_signal : unsigned(W-1 downto 0) := (others => '0');
 	 
 begin
+	 
+	 
 
 	 note_change_pulse : entity work.PulseGenerator
     generic map (
         CLK_FREQ    => CLK_FREQ,
-        PULSE_FREQ  => 1
+        PULSE_FREQ  => 1.0
     )
     port map (
         CLK          => CLK,
@@ -114,7 +115,7 @@ begin
 		  PULSE_OUT    => sample_enable
 	 );
 	 
-	 
+	 -- TODO: Incrementar phase a 32 bits
 	 -- phase_delta_tmp <= freq * to_unsigned(natural(real(2**W) / SAMPLE_FREQ / 4.0), W);
 	 -- phase_delta <= phase_delta_tmp(W-1 downto 0);
     phase_delta <= freq;
