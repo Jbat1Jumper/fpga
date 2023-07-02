@@ -62,6 +62,10 @@ set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1 us" -section_id Board_
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_FILE board_tb.vhd -section_id Board_tb
+set_location_assignment PIN_71 -to UART_RXD
+set_location_assignment PIN_42 -to MONO_OUT
+set_global_assignment -name VHDL_FILE sample_clock_tb.vhd
+set_global_assignment -name VHDL_FILE sample_clock.vhd
 set_global_assignment -name VHDL_FILE "uart-for-fpga/rtl/comp/uart_tx.vhd"
 set_global_assignment -name VHDL_FILE "uart-for-fpga/rtl/comp/uart_rx.vhd"
 set_global_assignment -name VHDL_FILE "uart-for-fpga/rtl/comp/uart_parity.vhd"
@@ -71,7 +75,6 @@ set_global_assignment -name VHDL_FILE "uart-for-fpga/rtl/uart.vhd"
 set_global_assignment -name VHDL_FILE board_tb.vhd
 set_global_assignment -name VHDL_FILE board.vhd
 set_global_assignment -name CDF_FILE board_program.cdf
-set_location_assignment PIN_44 -to UART_RXD
-set_location_assignment PIN_42 -to UART_TXD
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name QIP_FILE pll.qip
+set_global_assignment -name VHDL_FILE pulse_generator.vhd
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -23,7 +23,19 @@ begin
         wait for clk_period/2;
     end process;
 
-    rst_process: process
+    uut: entity work.SampleClock
+    generic map(
+        CLK_FREQ => 50e6,
+        SAMPLE_FREQ => 25e6,
+        T_WORD_WIDTH => 4
+    )
+    port map(
+        CLK => clk,
+        RST =>  rst,
+        T => t
+    );
+
+    test_process: process
     begin
       rst <= '1';
       wait for clk_period * 5 + 1 ps;
@@ -40,16 +52,5 @@ begin
       wait;
     end process;
 
-    uut: entity work.SampleClock
-    generic map(
-        CLK_FREQ => 50e6,
-        SAMPLE_FREQ => 25e6,
-        T_WORD_WIDTH => 4
-    )
-    port map(
-        CLK => clk,
-        RST =>  rst,
-        T => t
-    );
 
 end architecture;
