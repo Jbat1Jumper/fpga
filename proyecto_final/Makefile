@@ -1,4 +1,4 @@
-build: board.vhd board_tb.vhd pulse_generator.vhd uart-for-fpga/rtl/comp/uart_clk_div.vhd  uart-for-fpga/rtl/comp/uart_debouncer.vhd uart-for-fpga/rtl/comp/uart_parity.vhd uart-for-fpga/rtl/comp/uart_rx.vhd uart-for-fpga/rtl/comp/uart_tx.vhd uart-for-fpga/rtl/uart.vhd
+build: board.vhd board_tb.vhd pulse_generator.vhd uart-for-fpga/rtl/comp/uart_clk_div.vhd  uart-for-fpga/rtl/comp/uart_debouncer.vhd uart-for-fpga/rtl/comp/uart_parity.vhd uart-for-fpga/rtl/comp/uart_rx.vhd uart-for-fpga/rtl/comp/uart_tx.vhd uart-for-fpga/rtl/uart.vhd midi_frontend.vhd
 	ghdl -a --std=08 \
 		uart-for-fpga/rtl/comp/uart_clk_div.vhd \
 		uart-for-fpga/rtl/comp/uart_debouncer.vhd \
@@ -7,6 +7,7 @@ build: board.vhd board_tb.vhd pulse_generator.vhd uart-for-fpga/rtl/comp/uart_cl
 		uart-for-fpga/rtl/comp/uart_tx.vhd \
 		uart-for-fpga/rtl/uart.vhd \
 		pulse_generator.vhd \
+		midi_frontend.vhd \
 		board.vhd \
 		board_tb.vhd
 	ghdl -e --std=08 Board_tb

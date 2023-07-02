@@ -44,7 +44,7 @@ architecture Board_arch OF Board IS
 	 
 	  
     constant MAX_FREQ : natural := 2**(W-2);
-	 signal freq : unsigned(W-1 downto 0) := (others => '0');
+	 signal freq : std_logic_vector(W-1 downto 0) := (others => '0');
 	 
 	 signal phase_delta_tmp : unsigned((W*2)-1 downto 0) := (others => '0');
 	 signal phase_delta : unsigned(W-1 downto 0) := (others => '0');
@@ -57,52 +57,17 @@ architecture Board_arch OF Board IS
 	 
 begin
 	 
-	 
-
-	 note_change_pulse : entity work.PulseGenerator
-    generic map (
-        CLK_FREQ    => CLK_FREQ,
-        PULSE_FREQ  => 1.0
+  midi_frontend: entity work.MidiFrontend
+    generic map(
+        T_WORD_WIDTH => W
     )
-    port map (
-        CLK          => CLK,
-        RST          => RST,
-		  PULSE_OUT    => note_change_enable
-	 );
-	 
-	 note_change_update_freq : process (CLK)
-	 begin
-        if (rising_edge(CLK)) then
-            if (RST = '0') then
-                current_note <= (others => '0');
-					 freq <= (others => '0');
-            else
-                if (note_change_enable = '1') then
-                    current_note <= std_logic_vector(unsigned(current_note) + 1);
-							case current_note is
-								 when "00" =>
-									  freq <= to_unsigned(natural(261.63 * 4.0), W);
-
-								 when "01" =>
-									  freq <= to_unsigned(natural(329.63 * 4.0), W);
-
-								 when "10" =>
-									  freq <= to_unsigned(natural(392.00 * 4.0), W);
-								 
-								 when "11" =>
-									  freq <= to_unsigned(natural(493.88 * 4.0), W);
-									  
-								 when others => 
-									  freq <= to_unsigned(natural(493.88 * 4.0), W);
-							end case;
-                end if;
-            end if;
-        end if;
-	 end process;
-	
-	
-	 
-
+    port map(
+        MIDI_DATA => midi_data_in,
+        MIDI_DATA_EN => midi_data_in_valid,
+        FREQ => freq,
+        AMP => open,
+        CLK => CLK
+    );
 
 	 sample_pulse : entity work.PulseGenerator
     generic map (
@@ -118,7 +83,7 @@ begin
 	 -- TODO: Incrementar phase a 32 bits
 	 -- phase_delta_tmp <= freq * to_unsigned(natural(real(2**W) / SAMPLE_FREQ / 4.0), W);
 	 -- phase_delta <= phase_delta_tmp(W-1 downto 0);
-    phase_delta <= freq;
+    phase_delta <= unsigned(freq);
 	 
     rotate_phase : process (CLK)
     begin
