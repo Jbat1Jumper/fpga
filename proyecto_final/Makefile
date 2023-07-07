@@ -15,6 +15,10 @@ build: board.vhd board_tb.vhd pulse_generator.vhd uart-for-fpga/rtl/comp/uart_cl
 run: build
 	ghdl -r --std=08 Board_tb --vcd=board_tb.vcd --stop-time=100ms
 
+test-synth:
+	ghdl -a synth.vhd synth_tb.vhd
+	ghdl -e Synth_tb
+	ghdl -r Synth_tb --vcd=Synth_tb.vcd --stop-time=1us
 
 test-sample-clock:
 	ghdl -a sample_clock.vhd sample_clock_tb.vhd
