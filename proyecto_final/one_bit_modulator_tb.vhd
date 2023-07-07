@@ -18,7 +18,7 @@ begin
 
     uut: entity work.OneBitModulator
     generic map(
-        W           => 16
+        W        => 16
     )
     port map(
         CLK      => clk,

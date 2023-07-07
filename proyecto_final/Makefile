@@ -13,12 +13,22 @@ build: board.vhd board_tb.vhd pulse_generator.vhd uart-for-fpga/rtl/comp/uart_cl
 	ghdl -e --std=08 Board_tb
 
 run: build
-	ghdl -r --std=08 Board_tb --vcd=board_tb.vcd --stop-time=100ms
+	ghdl -r --std=08 Board_tb --vcd=board_tb.vcd --stop-time=1ms
+
+test-midi-frontend:
+	ghdl -a midi_frontend.vhd midi_frontend_tb.vhd
+	ghdl -e MidiFrontend_tb
+	ghdl -r MidiFrontend_tb --vcd=MidiFrontend_tb.vcd --stop-time=1us
 
 test-synth:
 	ghdl -a synth.vhd synth_tb.vhd
 	ghdl -e Synth_tb
 	ghdl -r Synth_tb --vcd=Synth_tb.vcd --stop-time=1us
+
+test-synth-2:
+	ghdl -a synth.vhd synth_tb_2.vhd
+	ghdl -e Synth_tb_2
+	ghdl -r Synth_tb_2 --vcd=Synth_tb_2.vcd --stop-time=30ms
 
 test-one-bit-modulator:
 	ghdl -a one_bit_modulator.vhd one_bit_modulator_tb.vhd
@@ -29,11 +39,6 @@ test-sample-clock:
 	ghdl -a sample_clock.vhd sample_clock_tb.vhd
 	ghdl -e SampleClock_tb
 	ghdl -r SampleClock_tb --vcd=SampleClock_tb.vcd --stop-time=1us
-
-test-midi-frontend:
-	ghdl -a midi_frontend.vhd midi_frontend_tb.vhd
-	ghdl -e MidiFrontend_tb
-	ghdl -r MidiFrontend_tb --vcd=MidiFrontend_tb.vcd --stop-time=1us
 
 proyecto_final.svf:
 	python3 gen_svf.py

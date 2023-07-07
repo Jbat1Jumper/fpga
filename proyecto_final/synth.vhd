@@ -22,18 +22,10 @@ end entity;
 
 architecture Synth_arch OF Synth IS
 	 
-    signal note_change_enable    : std_logic := '0';
-    signal current_note    : std_logic_vector(1 downto 0) := (others => '0');
-	 
-	  
-     constant MAX_FREQ : natural := 2**(W-2);
-	 
 	 signal phase_delta_tmp : unsigned((W*4)-1 downto 0) := (others => '0');
 	 signal phase_delta : unsigned((W*2)-1 downto 0) := (others => '0');
 	 
 	 signal phase_signal : unsigned((W*2)-1 downto 0) := (others => '0');
-	 
-	 signal output_signal : unsigned(W-1 downto 0) := (others => '0');
 	 
 begin
 
