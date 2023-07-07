@@ -22,16 +22,16 @@ end entity;
 
 architecture Synth_arch OF Synth IS
 	 
-	 signal phase_delta_tmp : unsigned((W*4)-1 downto 0) := (others => '0');
-	 signal phase_delta : unsigned((W*2)-1 downto 0) := (others => '0');
+	 signal phase_delta_tmp : unsigned((W*2)-1 downto 0) := (others => '0');
+	 signal phase_delta : unsigned((W)-1 downto 0) := (others => '0');
 	 
-	 signal phase_signal : unsigned((W*2)-1 downto 0) := (others => '0');
+	 signal phase_signal : unsigned((W)-1 downto 0) := (others => '0');
 	 
 begin
 
     -- TODO: Incrementar phase a 32 bits
-    phase_delta_tmp <= "0000000000000000"&unsigned(FREQ) * to_unsigned(natural(real(2**(W*2)) / SAMPLE_FREQ / 4.0), W*2);
-    phase_delta <= phase_delta_tmp(W*2-1 downto 0);
+    phase_delta_tmp <= unsigned(FREQ) * 1; --to_unsigned(natural(real(2**(W)) / SAMPLE_FREQ / 4.0), W);
+    phase_delta <= phase_delta_tmp(W-1 downto 0);
 
     rotate_phase : process (CLK)
     begin
@@ -44,6 +44,6 @@ begin
         end if;
     end process;
 
-    SAMPLE <= phase_signal((W*2)-1 downto (W)) when (AMP>0) else to_unsigned(0, W);
+    SAMPLE <= phase_signal((W)-1 downto (0)) when (AMP>0) else to_unsigned(0, W);
 
 end architecture;
