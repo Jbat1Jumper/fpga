@@ -20,6 +20,11 @@ test-synth:
 	ghdl -e Synth_tb
 	ghdl -r Synth_tb --vcd=Synth_tb.vcd --stop-time=1us
 
+test-one-bit-modulator:
+	ghdl -a one_bit_modulator.vhd one_bit_modulator_tb.vhd
+	ghdl -e OneBitModulator_tb
+	ghdl -r OneBitModulator_tb --vcd=OneBitModulator_tb.vcd --stop-time=1us
+
 test-sample-clock:
 	ghdl -a sample_clock.vhd sample_clock_tb.vhd
 	ghdl -e SampleClock_tb
