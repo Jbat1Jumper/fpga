@@ -43,25 +43,21 @@ begin
       wait for clk_period * 5 + 1 ps;
       rst <= '0';
 
-      freq <= to_unsigned(440*4, 16);
+      freq <= to_unsigned(110*4, 16);
       amp <= to_unsigned(100, 16);
-      wait for clk_period * 200;
+      wait for clk_period * 400;
 
       freq <= to_unsigned(220*4, 16);
-      amp <= to_unsigned(100, 16);
-      wait for clk_period * 200;
-
-      freq <= to_unsigned(110*4, 16);
       amp <= to_unsigned(100, 16);
       wait for clk_period * 400;
 
       freq <= to_unsigned(440*4, 16);
       amp <= to_unsigned(100, 16);
-      wait for clk_period * 200;
+      wait for clk_period * 400;
 
       freq <= to_unsigned(880*4, 16);
       amp <= to_unsigned(100, 16);
-      wait for clk_period * 200;
+      wait for clk_period * 400;
 
       freq <= to_unsigned(0*4, 16);
       amp <= to_unsigned(100, 16);

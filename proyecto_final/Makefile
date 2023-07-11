@@ -28,12 +28,12 @@ test-synth:
 test-synth-2:
 	ghdl -a synth.vhd synth_tb_2.vhd
 	ghdl -e Synth_tb_2
-	ghdl -r Synth_tb_2 --vcd=Synth_tb_2.vcd --stop-time=30ms
+	ghdl -r Synth_tb_2 --vcd=Synth_tb_2.vcd --stop-time=40ms
 
 test-one-bit-modulator:
 	ghdl -a one_bit_modulator.vhd one_bit_modulator_tb.vhd
 	ghdl -e OneBitModulator_tb
-	ghdl -r OneBitModulator_tb --vcd=OneBitModulator_tb.vcd --stop-time=1us
+	ghdl -r OneBitModulator_tb --vcd=OneBitModulator_tb.vcd --stop-time=520ns
 
 test-sample-clock:
 	ghdl -a sample_clock.vhd sample_clock_tb.vhd
