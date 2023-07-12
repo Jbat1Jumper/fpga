@@ -89,6 +89,6 @@ fontsize: 11pt
 
 # Prueba de sonido
 
-## Vivo?
+## En vivo?
 
-![](https://media.tenor.com/F0PvAS2uXMcAAAAC/funny-dancing-spiderman-dancing-spiderman.gif)
+![](./img/vivo.jpg)
