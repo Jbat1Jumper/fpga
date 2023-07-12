@@ -1,0 +1,33 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Fri Jul  7 05:54:24 2023
+[*]
+[dumpfile] "/home/nikita/r/fpga/proyecto_final/OneBitModulator_tb.vcd"
+[dumpfile_mtime] "Fri Jul  7 05:10:46 2023"
+[dumpfile_size] 75266
+[savefile] "/home/nikita/r/fpga/proyecto_final/one_bit_modulator_tb.gtkw"
+[timestart] 0
+[size] 3428 403
+[pos] -1 -1
+*-25.974203 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] onebitmodulator_tb.
+[sst_width] 199
+[signals_width] 138
+[sst_expanded] 1
+[sst_vpaned_height] 75
+@28
+onebitmodulator_tb.uut.clk
+@8022
+onebitmodulator_tb.uut.sample[15:0]
+@20000
+-
+-
+@8022
+onebitmodulator_tb.uut.noise_signal[15:0]
+@20000
+-
+-
+@29
+onebitmodulator_tb.uut.mono_out
+[pattern_trace] 1
+[pattern_trace] 0
