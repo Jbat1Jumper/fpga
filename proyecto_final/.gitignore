@@ -38,7 +38,7 @@
 *.hex
 *.html
 *.jdi
-*.jpg
+# *.jpg
 # *.mif
 *.pin
 *.pof
