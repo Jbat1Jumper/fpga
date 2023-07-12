@@ -25,21 +25,8 @@ print("Listening to notes")
 with mido.open_input(selected_input) as inport:
     for msg in inport:
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
-        biites = (msg.note % 4).to_bytes(length=1, byteorder="little")
-        print(msg, 'bytes:', msg_bytes_h, 'sending:', biites)
-        #arduino.write(msg.bytes())
-
-        print('written_bytes:', arduino.write(msg.bytes()))
-
-        # Read to check we sent the right thing
-        #value = arduino.readline().decode('utf-8').strip()
-        #print(value)
-        #
-        #value = arduino.readline().decode('utf-8').strip()
-        #print(value)
-
-        #value = arduino.readline().decode('utf-8').strip()
-        #print(value)
+        print(msg, 'bytes:', msg_bytes_h)
+        arduino.write(msg.bytes())
 
 # num = 0
 # 

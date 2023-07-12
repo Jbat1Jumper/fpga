@@ -16,10 +16,12 @@ arduino = serial.Serial(port=ARDUINO_PATH, baudrate=115200, timeout=.5)
 values = [0, 1, 2, 3]
 
 print("Playing Song")
-for msg in MidiFile('CMIINTRO.MID'):
+for msg in MidiFile('simpsons-3.mid'):
     time.sleep(msg.time)
     if not msg.is_meta:
+        if msg.type in ["note_on", "note_off"]:
+            # Down two octaves
+            msg.note -= 24
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
-        biites = (msg.note % 4).to_bytes(length=1, byteorder="little")
-        print(msg, 'bytes:', msg_bytes_h, 'sending:', biites)
-        print('written_bytes:', arduino.write(biites))
+        print(msg, 'bytes:', msg_bytes_h)
+        arduino.write(msg.bytes())
