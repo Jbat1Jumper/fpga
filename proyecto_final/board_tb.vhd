@@ -36,7 +36,7 @@ begin
     uut: entity work.Board
     port map(
         CLK => clk,
-        RST =>  rst,
+        NOT_RST =>  not rst,
         MONO_OUT   => mono_out,
         UART_RXD   => uart_rxd,
         LED_A => leds(2),

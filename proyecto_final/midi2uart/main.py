@@ -29,7 +29,7 @@ with mido.open_input(selected_input) as inport:
         print(msg, 'bytes:', msg_bytes_h, 'sending:', biites)
         #arduino.write(msg.bytes())
 
-        print('written_bytes:', arduino.write(biites))
+        print('written_bytes:', arduino.write(msg.bytes()))
 
         # Read to check we sent the right thing
         #value = arduino.readline().decode('utf-8').strip()

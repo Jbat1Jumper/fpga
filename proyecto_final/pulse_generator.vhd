@@ -28,7 +28,7 @@ begin
     count_system_clocks_per_pulse: process (CLK)
     begin
         if (rising_edge(CLK)) then
-            if (RST = '0') then
+            if (RST = '1') then
                 clk_count <= (others => '0');
             else
                 if (pulse_enable = '1') then

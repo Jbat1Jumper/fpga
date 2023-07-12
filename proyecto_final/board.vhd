@@ -11,7 +11,7 @@ entity Board is
     );
     Port (
         CLK : IN STD_LOGIC;
-        RST : IN STD_LOGIC;
+        NOT_RST : IN STD_LOGIC;
 		  
 		  UART_RXD : IN STD_LOGIC;
 		  MONO_OUT : OUT STD_LOGIC;
@@ -24,8 +24,10 @@ end entity;
 
 architecture Board_arch OF Board IS
     constant W : natural := 16;
+
+    signal rst : STD_LOGIC;
 	 
-    signal sample_enable    : std_logic := '0';
+    signal sample_clk    : std_logic := '0';
 
     type state_t is (turned_off, first_led, second_led, third_led);
 
@@ -39,86 +41,17 @@ architecture Board_arch OF Board IS
 	 signal PARITY_ERROR : std_logic;
 	 
 	 
-    signal note_change_enable    : std_logic := '0';
-    signal current_note    : std_logic_vector(1 downto 0) := (others => '0');
-	 
 	  
-    constant MAX_FREQ : natural := 2**(W-2);
-	 signal freq : std_logic_vector(W-1 downto 0) := (others => '0');
+	 signal amplitude  : std_logic_vector(W-1 downto 0) := (others => '0');
+	 signal freq       : std_logic_vector(W-1 downto 0) := (others => '0');
 	 
-	 signal phase_delta_tmp : unsigned((W*2)-1 downto 0) := (others => '0');
-	 signal phase_delta : unsigned(W-1 downto 0) := (others => '0');
-	 
-	 signal phase_signal : unsigned(W-1 downto 0) := (others => '0');
-	 
-	 signal output_signal : unsigned(W-1 downto 0) := (others => '0');
-	 
-	 signal noise_signal : unsigned(W-1 downto 0) := (others => '0');
+	 signal sample : unsigned(W-1 downto 0) := (others => '0');
 	 
 begin
-	 
-  midi_frontend: entity work.MidiFrontend
-    generic map(
-        T_WORD_WIDTH => W
-    )
-    port map(
-        MIDI_DATA => midi_data_in,
-        MIDI_DATA_EN => midi_data_in_valid,
-        FREQ => freq,
-        AMP => open,
-        CLK => CLK
-    );
 
-	 sample_pulse : entity work.PulseGenerator
-    generic map (
-        CLK_FREQ    => CLK_FREQ,
-        PULSE_FREQ  => SAMPLE_FREQ
-    )
-    port map (
-        CLK          => CLK,
-        RST          => RST,
-		  PULSE_OUT    => sample_enable
-	 );
-	 
-	 -- TODO: Incrementar phase a 32 bits
-	 -- phase_delta_tmp <= freq * to_unsigned(natural(real(2**W) / SAMPLE_FREQ / 4.0), W);
-	 -- phase_delta <= phase_delta_tmp(W-1 downto 0);
-    phase_delta <= unsigned(freq);
-	 
-    rotate_phase : process (CLK)
-    begin
-        if (rising_edge(CLK)) then
-            if (RST = '0') then
-                phase_signal <= (others => '0');
-            else
-                if (sample_enable = '1') then 
-                    phase_signal <= phase_signal + phase_delta;
-                end if;
-            end if;
-        end if;
-    end process;
-	 
-	 output_signal <= phase_signal;
-	 
-	
-	 
-    generate_noise_signal : process (CLK)
-    begin
-        if (rising_edge(CLK)) then
-            if (RST = '0') then
-                noise_signal <= (others => '0');
-            else
-					 noise_signal <= noise_signal + (2**9);
-            end if;
-        end if;
-    end process;
-	 
-	 
-	 MONO_OUT <= '1' when (noise_signal < output_signal) else '0';
-	 
+    rst <= not NOT_RST;
 
-
-	 midi_uart : entity work.UART
+	midi_uart : entity work.UART
     generic map (
         CLK_FREQ    => natural(CLK_FREQ),
         BAUD_RATE   => 115200,
@@ -127,7 +60,7 @@ begin
     )
     port map (
         CLK          => CLK,
-        RST          => not RST,
+        RST          => rst,
         -- UART INTERFACE
         UART_TXD     => open,
         UART_RXD     => UART_RXD,
@@ -142,6 +75,50 @@ begin
         PARITY_ERROR => PARITY_ERROR
     );
 	 
+    midi_frontend: entity work.MidiFrontend
+    generic map(
+        T_WORD_WIDTH => W
+    )
+    port map(
+        MIDI_DATA    => midi_data_in,
+        MIDI_DATA_EN => midi_data_in_valid,
+        FREQ         => freq,
+        AMP          => amplitude,
+        CLK          => CLK
+    );
+
+	sample_pulse : entity work.PulseGenerator
+    generic map (
+        CLK_FREQ     => CLK_FREQ,
+        PULSE_FREQ   => SAMPLE_FREQ
+    )
+    port map (
+        CLK          => CLK,
+        RST          => rst,
+		PULSE_OUT    => sample_clk
+	 );
+
+    synth: entity work.Synth
+    generic map (
+        SAMPLE_FREQ   => SAMPLE_FREQ
+    )
+    port map (
+        CLK          => sample_clk,
+        RST          => rst,
+        FREQ         => unsigned(freq),
+        AMP          => unsigned(amplitude),
+		SAMPLE       => sample
+	 );
+
+    modulator: entity work.OneBitModulator
+    port map (
+        CLK          => CLK,
+        RST          => rst,
+		SAMPLE       => sample,
+        MONO_OUT     => MONO_OUT
+
+	 );
+	 
     debug_led : process (FRAME_ERROR)
     begin
 		if (rising_edge(FRAME_ERROR)) then
@@ -149,7 +126,7 @@ begin
 		end if;
     end process;
 	 
-	 LED_C <= led_on;
+	LED_C <= led_on;
 
     state_transitions : process (midi_data_in_valid)
     begin
@@ -173,7 +150,7 @@ begin
     change_state : process (CLK)
     begin
         if (rising_edge(CLK)) then
-            if (RST = '0') then
+            if (RST = '1') then
                 present_state <= turned_off;
             else
                 present_state <= next_state;
