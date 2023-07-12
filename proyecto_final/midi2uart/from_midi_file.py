@@ -16,7 +16,7 @@ arduino = serial.Serial(port=ARDUINO_PATH, baudrate=115200, timeout=.5)
 values = [0, 1, 2, 3]
 
 print("Playing Song")
-for msg in MidiFile('CMIIntro.MID'):
+for msg in MidiFile('CMIINTRO.MID'):
     time.sleep(msg.time)
     if not msg.is_meta:
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
