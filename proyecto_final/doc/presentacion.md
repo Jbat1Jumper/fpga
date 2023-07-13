@@ -46,6 +46,18 @@ fontsize: 11pt
 
 ![](./img/board_inside.png)
 
+## Diagrama General
+
+![](./img/board_inside_midi.jpg)
+
+## MIDI (para representar notas)
+
+![](https://cdn-learn.adafruit.com/assets/assets/000/065/483/medium800/projects_midinoteonmessage.jpg?1541786321)
+
+## Diagrama General
+
+![](./img/board_inside_synth.jpg)
+
 ## Generando una señal
 
 ![](./img/time.jpg)
@@ -58,6 +70,10 @@ fontsize: 11pt
 
 ![](./img/synth_tb_2.png)
 
+## Diagrama General
+
+![](./img/board_inside_modulation.jpeg)
+
 ## Sacando sonido en un bit
 
 ![](https://audiophilereview.com/wp-content/uploads/2018/11/sigma20delta20waveform.png)
@@ -66,24 +82,8 @@ fontsize: 11pt
 
 ![](./img/one_bit_modulator_tb.png)
 
-## Protocolos Sobre los que nos basamos
-
-### UART (para comunicarnos con la FPGA)
-
-![](https://vanhunteradams.com/Protocols/UART/uart_hardware.png)
-
-### MIDI (para representar notas)
-
-![](https://cdn-learn.adafruit.com/assets/assets/000/065/483/medium800/projects_midinoteonmessage.jpg?1541786321)
-
-
 # Preguntas?
 
 ![](./img/vivo.jpg)
 
-# Miscelaneos (Si te quedaste manija)
-
-## Reconstrucción
-
-![](https://www.murata.com/~/media/webrenewal/products/emc/emifil/knowhow/basic/chapter01-p1/chapter01-p1_img0013.ashx?la=en&h=248&w=640)
-
+# Prueba de sonido
