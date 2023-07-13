@@ -20,6 +20,10 @@ fontsize: 11pt
 
 ![](./img/oh_silent_roland.jpg)
 
+## Norte
+
+![](https://www.renegadeproducer.com/images/synth-patch-basic.png)
+
 ## Xilinx no, Altera Sí
 
 ![](./img/altera_vs_xilinx.jpg)
@@ -32,12 +36,7 @@ fontsize: 11pt
 
 ![](./img/urjtag.jpg)
 
-
 # Desarollo
-
-## Norte
-
-![](https://www.renegadeproducer.com/images/synth-patch-basic.png)
 
 ## Comunicación con la placa
 
@@ -46,14 +45,6 @@ fontsize: 11pt
 ## Diagrama General
 
 ![](./img/board_inside.png)
-
-## UART
-
-![](https://vanhunteradams.com/Protocols/UART/uart_hardware.png)
-
-## Midiresumen
-
-![](https://cdn-learn.adafruit.com/assets/assets/000/065/483/medium800/projects_midinoteonmessage.jpg?1541786321)
 
 ## Generando una señal
 
@@ -75,20 +66,24 @@ fontsize: 11pt
 
 ![](./img/one_bit_modulator_tb.png)
 
+## Protocolos Sobre los que nos basamos
+
+### UART (para comunicarnos con la FPGA)
+
+![](https://vanhunteradams.com/Protocols/UART/uart_hardware.png)
+
+### MIDI (para representar notas)
+
+![](https://cdn-learn.adafruit.com/assets/assets/000/065/483/medium800/projects_midinoteonmessage.jpg?1541786321)
+
+
+# Preguntas?
+
+![](./img/vivo.jpg)
+
+# Miscelaneos (Si te quedaste manija)
+
 ## Reconstrucción
 
 ![](https://www.murata.com/~/media/webrenewal/products/emc/emifil/knowhow/basic/chapter01-p1/chapter01-p1_img0013.ashx?la=en&h=248&w=640)
 
-## Vistazo de nuevo a la placa
-
-![](./img/board_io.png)
-
-## Repaso Diagrama General
-
-![](./img/board_inside.png)
-
-# Prueba de sonido
-
-## En vivo?
-
-![](./img/vivo.jpg)
