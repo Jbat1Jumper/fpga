@@ -1,6 +1,8 @@
 import mido
 import serial
 import platform
+from mido import MidiFile
+import time
 
 if platform.system() == "Darwin":
     mido.set_backend("mido.backends.pygame")
@@ -11,28 +13,15 @@ ARDUINO_PATH = "/dev/tty.usbserial-130" if platform.system() == "Darwin" else "/
 print("Opening serial port")
 arduino = serial.Serial(port=ARDUINO_PATH, baudrate=115200, timeout=.5)
 
-print("Listing inputs")
-input_names = set(mido.get_input_names())
-for name in input_names:
-    print("-", name)
-
-selected_input = next(filter(lambda n: "nano" in n, input_names))
-print("Selected input:", selected_input)
-
 values = [0, 1, 2, 3]
 
-print("Listening to notes")
-with mido.open_input(selected_input) as inport:
-    for msg in inport:
+print("Playing Song")
+for msg in MidiFile('./Rick-Astley-Never-Gonna-Give-You-Up-Anonymous-20211219135329-nonstop2k.com.mid'):
+    time.sleep(msg.time)
+    if not msg.is_meta:
+        if msg.type in ["note_on", "note_off"]:
+            # Down two octaves
+            msg.note -= 24
         msg_bytes_h = ','.join('{:02x}'.format(x) for x in msg.bytes()).upper()
         print(msg, 'bytes:', msg_bytes_h)
         arduino.write(msg.bytes())
-
-# num = 0
-# 
-# while True:
-#     num += 1
-#     print("Current num", num)
-#     arduino.write(bytes(str(num), 'utf-8'))
-#     time.sleep(0.05)
-# 
