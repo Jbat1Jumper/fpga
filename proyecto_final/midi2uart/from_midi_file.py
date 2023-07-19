@@ -16,7 +16,7 @@ arduino = serial.Serial(port=ARDUINO_PATH, baudrate=115200, timeout=.5)
 values = [0, 1, 2, 3]
 
 print("Playing Song")
-for msg in MidiFile('simpsons-3.mid'):
+for msg in MidiFile('./Rick-Astley-Never-Gonna-Give-You-Up-Anonymous-20211219135329-nonstop2k.com.mid'):
     time.sleep(msg.time)
     if not msg.is_meta:
         if msg.type in ["note_on", "note_off"]:
