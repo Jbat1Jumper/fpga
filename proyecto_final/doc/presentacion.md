@@ -1,6 +1,6 @@
 ---
 title:
-- Proyecto Final
+- Proyecto Final: Diseño de sistemas digitales con FPGA
 author:
 - Nikita Zdanovitch
 - Martín Fraga
